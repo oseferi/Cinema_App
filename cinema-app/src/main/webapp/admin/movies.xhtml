@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+	
+    <h:head>
+        <title>Display Movies</title>
+    </h:head>
+    <h:body>
+    	<h2>Movie Manage form</h2>
+    		
+    	<h:form>
+    	<h:commandButton value="Log Out #{userBean.user.username}" action="#{loginBean.logOut}"></h:commandButton>
+	    	<h:dataTable value = "#{movieBean.movies}" var = "movie"
+			   styleClass = "employeeTable"
+			   headerClass = "employeeTableHeader"
+			   rowClasses = "employeeTableOddRow,employeeTableEvenRow">
+			   
+			   <h:column>    				
+			      <f:facet name = "header">ID</f:facet>    				
+			      <h:outputText value=" #{movie.id}" />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Title</f:facet>
+			      <h:outputText value="#{movie.title}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Description</f:facet>
+			      <h:outputText value="#{movie.description}" />
+			      
+			   </h:column>  
+			   
+			   	<h:column>
+			      <f:facet name = "header">IMDB</f:facet>
+			      <h:outputText value="#{movie.imdb}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Category</f:facet>
+			      <h:outputText value="#{movie.category.name}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Duration</f:facet>
+			       <h:outputText value="#{movie.duration}"  />
+			   </h:column>
+			   
+			    <h:column>
+			      <f:facet name = "header">Director</f:facet>
+			      <h:outputText value="#{movie.director}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Year</f:facet>
+			      <h:outputText value="#{movie.year}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Rating</f:facet>
+			      <h:outputText value="#{movie.rating}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Country</f:facet>
+			      <h:outputText value="#{movie.country.name}"  />
+			   </h:column>
+			   
+			   
+			   <h:column>
+			      <f:facet name = "header">Edit</f:facet>
+			      <h:commandButton value="Edit" action="#{movieBean.editAction(movie.id)}" ></h:commandButton>
+	
+			   </h:column>
+			   
+			   
+			   <h:column>
+			      <f:facet name = "header">Delete</f:facet>
+			      <h:commandButton value="Delete" action="#{movieBean.deleteMovie(movie.id)}"></h:commandButton>
+			   </h:column>
+			   
+			    
+			</h:dataTable>    
+
+    	</h:form>
+    	<hr/>
+    	
+	<h2>Add a movie</h2>
+	<h:form>
+    	   Title :<h:inputText value="#{movieBean.movie.title}"></h:inputText>
+		<br />
+    	   
+    	   Description:<h:inputText value="#{movieBean.movie.description}"></h:inputText>
+		<br />
+    	   
+    	   IMDB:<h:inputText value="#{movieBean.movie.imdb}"></h:inputText>
+		<br />
+    	   
+    	   Category:
+    	   <h:selectOneMenu value="#{movieBean.category}">
+			<f:selectItems value="#{movieBean.categories}" var="category"
+				itemValue="#{category.id}" itemLabel="#{category.name}" />
+		</h:selectOneMenu>
+		<br />
+    	   
+    	   Duration:<h:inputText value="#{movieBean.movie.duration}">
+			<f:converter converterId="javax.faces.Integer" />
+		</h:inputText>
+		<br />
+    	   
+    	   Director:<h:inputText value="#{movieBean.movie.director}"></h:inputText>
+		<br />
+    	   
+    	   Year:<h:inputText value="#{movieBean.movie.year}">
+			<f:converter converterId="javax.faces.Integer" />
+		</h:inputText>
+		<br />
+    	   
+    	   Rating:<h:inputText value="#{movieBean.movie.rating}">
+			<f:converter converterId="javax.faces.Integer" />
+		</h:inputText>
+		<br />
+    	   
+    	   Country:
+    	   <h:selectOneMenu value="#{movieBean.country}">
+			<f:selectItems value="#{movieBean.countries}" var="country"
+				itemValue="#{country.id}" itemLabel="#{country.name}" />
+			</h:selectOneMenu>
+		<br />
+
+
+		<h:commandButton value="Add Movie" action="#{movieBean.addMovie()}"></h:commandButton>
+	</h:form>
+    </h:body>
+</html>

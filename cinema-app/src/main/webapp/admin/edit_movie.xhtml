@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Edit Movie</title>
+</h:head>
+<h:body>
+	<h2>Edit Movie with id #{movieBean.movieToBeUpdated.id}</h2>
+	<h:form>
+    	   Title :<h:inputText value="#{movieBean.movieToBeUpdated.title}"></h:inputText>
+		<br />
+    	   
+    	   Description:<h:inputText value="#{movieBean.movieToBeUpdated.description}"></h:inputText>
+		<br />
+    	   
+    	   IMDB:<h:inputText value="#{movieBean.movieToBeUpdated.imdb}"></h:inputText>
+		<br />
+    	   
+    	   Category:
+    	   <h:selectOneMenu value="#{movieBean.categoryToBeUpdated}">
+    	    <f:selectItem itemValue="#{movieBean.movieToBeUpdated.category.id}" itemLabel="#{movieBean.movieToBeUpdated.category.name}"></f:selectItem>
+			<f:selectItems value="#{movieBean.categories}" var="category"
+				itemValue="#{category.id}" itemLabel="#{category.name}" />
+		</h:selectOneMenu>
+		<br />
+    	   
+    	   Duration:<h:inputText value="#{movieBean.movieToBeUpdated.duration}">
+			<f:converter converterId="javax.faces.Integer" />
+		</h:inputText>
+		<br />
+    	   
+    	   Director:<h:inputText value="#{movieBean.movieToBeUpdated.director}"></h:inputText>
+		<br />
+    	   
+    	   Year:<h:inputText value="#{movieBean.movieToBeUpdated.year}">
+			<f:converter converterId="javax.faces.Integer" />
+		</h:inputText>
+		<br />
+    	   
+    	   Rating:<h:inputText value="#{movieBean.movieToBeUpdated.rating}">
+			<f:converter converterId="javax.faces.Integer" />
+		</h:inputText>
+		<br />
+    	   
+    	   Country:
+    	   <h:selectOneMenu value="#{movieBean.countryToBeUpdated}">
+    	   <f:selectItem itemValue="#{movieBean.movieToBeUpdated.country.id}" itemLabel="#{movieBean.movieToBeUpdated.country.name}"></f:selectItem>
+			<f:selectItems value="#{movieBean.countries}" var="country"
+				itemValue="#{country.id}" itemLabel="#{country.name}" />
+			</h:selectOneMenu>
+		<br />
+
+
+		<h:commandButton value="go" action="#{movieBean.updateAction(movieBean.movieToBeUpdated.id,movieBean.movieToBeUpdated)}"></h:commandButton>
+	</h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Reservation</title>
+</h:head>
+<h:body>
+	<h2>Reservation</h2>
+
+	<h:form>
+			Id: <h:outputText value=" #{showBean.show1.id}" />
+		<br />
+				
+
+				Chair:
+           <h:selectOneMenu value="#{reservationBean.chair}">
+			<f:selectItems value="#{reservationBean.chairs}" var="chair"
+				itemValue="#{chair.id}" itemLabel="#{chair.id}" />
+		</h:selectOneMenu>
+
+		<br />
+
+
+		<f:facet name="header">Rezervo</f:facet>
+		<h:commandButton value="Rezervo"
+			action="#{reservationBean.addReservation}"></h:commandButton>
+		<br />
+
+		<h:commandButton value="Log Out #{userBean.user.username}"
+			action="#{loginBean.logOut}"></h:commandButton>
+	</h:form>
+
+</h:body>
+</html>

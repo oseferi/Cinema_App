@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Display Reservations</title>
+</h:head>
+<h:body>
+	<h2>Reservation Manage form</h2>
+
+	<h:form>
+		<h:dataTable value="#{reservationBean.reservations}" var="reservation"
+			styleClass="employeeTable" headerClass="employeeTableHeader"
+			rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+			<h:column>
+				<f:facet name="header">ID:</f:facet>
+				<h:outputText value=" #{reservation.id}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Person:</f:facet>
+				<h:outputText value="#{reservation.person}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">User:</f:facet>
+				<h:outputText value="#{reservation.user.username}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Chair:</f:facet>
+				<h:outputText value="#{reservation.chair.id}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Show title:</f:facet>
+				<h:outputText value="#{reservation.show.movie.title}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Show time:</f:facet>
+				<h:outputText value="#{reservation.show.start}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Edit</f:facet>
+				<h:commandButton value="Edit"
+					action="#{reservationBean.editAction(reservation.id)}"></h:commandButton>
+
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Delete</f:facet>
+				<h:commandButton value="Delete"
+					action="#{reservationBean.deleteShow(reservation.id)}"></h:commandButton>
+			</h:column>
+
+
+		</h:dataTable>
+		<h:commandButton value="Log Out #{userBean.user.username}"
+			action="#{loginBean.logOut}"></h:commandButton>
+	</h:form>
+	
+</h:body>
+</html>

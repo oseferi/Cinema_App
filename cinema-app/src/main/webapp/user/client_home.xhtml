@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html">
+	
+    <h:head>
+        <title>Client Home</title>
+    </h:head>
+    <h:body>
+    	<h2>Welcome #{userBean.user.username}</h2>
+    	<h2>Movies:</h2>
+    		
+    	<h:form>
+    	<h:commandButton value="Log Out #{userBean.user.username}" action="#{loginBean.logOut}"></h:commandButton>
+	    	<h:dataTable value = "#{movieBean.movies}" var = "movie"
+			   styleClass = "employeeTable"
+			   headerClass = "employeeTableHeader"
+			   rowClasses = "employeeTableOddRow,employeeTableEvenRow">
+			   
+			   <h:column>    				
+			      <f:facet name = "header">ID</f:facet>    				
+			      <h:outputText value=" #{movie.id}" />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Title</f:facet>
+			      <h:outputText value="#{movie.title}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Description</f:facet>
+			      <h:outputText value="#{movie.description}" />
+			      
+			   </h:column>  
+			   
+			   	<h:column>
+			      <f:facet name = "header">IMDB</f:facet>
+			      <h:outputText value="#{movie.imdb}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Category</f:facet>
+			      <h:outputText value="#{movie.category.name}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Duration</f:facet>
+			       <h:outputText value="#{movie.duration}"  />
+			   </h:column>
+			   
+			    <h:column>
+			      <f:facet name = "header">Director</f:facet>
+			      <h:outputText value="#{movie.director}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Year</f:facet>
+			      <h:outputText value="#{movie.year}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Rating</f:facet>
+			      <h:outputText value="#{movie.rating}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Country</f:facet>
+			      <h:outputText value="#{movie.country.name}"  />
+			   </h:column>
+			   
+			   
+			   <h:column>
+			      <f:facet name = "header">Choose to see shows of this movie</f:facet>
+			      <h:commandButton value="Choose" action="#{showBean.choose(movie.id)}" ></h:commandButton>
+	
+			   </h:column>
+			    
+			</h:dataTable>    
+
+    	</h:form>
+    	
+    </h:body>
+</html>

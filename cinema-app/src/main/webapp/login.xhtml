@@ -1,0 +1,32 @@
+<!DOCTYPE htlm>
+<html lang="en" xmlns="http:www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<title>Log In</title>
+	<style>
+.error {
+	color: red
+}
+</style>
+</h:head>
+
+<h:body>
+	<h:form>
+		UserName: <h:inputText value="#{loginBean.userName}"
+			a:placeholder="What's your username?" label="UserName"
+			required="true" id="User_Name" />
+		<h:message for="User_Name" styleClass="error" />
+		<br />
+		<br />
+		Password: <h:inputSecret value="#{loginBean.password}" label="Password" required ="true" id="Password"/>
+		<h:message for="Password" styleClass="error" />
+		<br />
+		<br />
+		<h:commandButton value="Log In" action="#{loginBean.logIn}" />
+		<br />
+		<br />
+
+	</h:form>
+</h:body>
+</html>

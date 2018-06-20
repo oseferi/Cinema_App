@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:form>
+	    	<h:dataTable value = "#{cinemaBean.rooms}" var = "Room"
+			   styleClass = "employeeTable"
+			   headerClass = "employeeTableHeader"
+			   rowClasses = "employeeTableOddRow,employeeTableEvenRow">
+			   
+			   <h:column>    				
+			      <f:facet name = "header">ID</f:facet>    				
+			      <h:outputText value=" #{Room.id}" />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Name</f:facet>
+			      <h:outputText value="#{Room.name}"  />
+			   </h:column>
+			   
+			   <h:column>
+			      <f:facet name = "header">Description</f:facet>
+			      <h:outputText value="#{Room.description}" />
+			      
+			   </h:column>
+	
+			   <h:column>
+			      <f:facet name = "header">Cinema</f:facet>
+			      <h:outputText value="#{Room.cinema.name}"  />
+			   </h:column>
+			   <h:column>
+			      <f:facet name = "header">Edit</f:facet>
+			      <h:commandButton value="Edit" action="#{cinemaBean.editAction(Room.id)}" ></h:commandButton>
+	
+			   </h:column>
+			   
+			   
+			   <h:column>
+			      <f:facet name = "header">Delete</f:facet>
+			      <h:commandButton value="Delete" action="#{cinemaBean.deleteRoom(Room.id)}"></h:commandButton>
+			   </h:column>
+			    
+			</h:dataTable>    	
+    	</h:form>
+    	<hr/>
+    	
+    	<h:form>
+    	   Name :<h:inputText value="#{cinemaBean.room.name}"></h:inputText>
+		<br />
+    	   
+    	   Description:<h:inputText value="#{cinemaBean.room.description}"></h:inputText>
+		<br />
+    	   
+		<h:commandButton value="Add Room" action="#{cinemaBean.addRoom()}"></h:commandButton>
+	</h:form>
+</html>

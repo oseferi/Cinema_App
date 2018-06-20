@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Display Shows</title>
+</h:head>
+<h:body>
+	<h2>The current avaible shows</h2>
+
+	<h:form>
+		<h:dataTable value="#{showBean.shows}" var="show"
+			styleClass="employeeTable" headerClass="employeeTableHeader"
+			rowClasses="employeeTableOddRow,employeeTableEvenRow">
+
+			<h:column>
+				<f:facet name="header">ID:</f:facet>
+				<h:outputText value=" #{show.id}" />
+
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Date:</f:facet>
+				<h:outputText value="#{show.start}">
+					<f:convertDateTime dateStyle="full" pattern="yyyy-MM-dd HH:mm" />
+				</h:outputText>
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Monitor:</f:facet>
+				<h:outputText value="#{show.monitor.id}" />
+
+			</h:column>
+
+
+
+			<h:column>
+				<f:facet name="header">Movie:</f:facet>
+				<h:outputText value="#{show.movie.title}" />
+			</h:column>
+
+
+			<h:column>
+				<f:facet name="header">Choose</f:facet>
+				<h:commandButton value="Chosse"
+					action="#{showBean.chooseShow(show.id)}"></h:commandButton>
+
+			</h:column>
+
+
+		</h:dataTable>
+		<h:commandButton value="Log Out #{userBean.user.username}" action="#{loginBean.logOut}"></h:commandButton>
+	</h:form>
+	
+</h:body>
+</html>
