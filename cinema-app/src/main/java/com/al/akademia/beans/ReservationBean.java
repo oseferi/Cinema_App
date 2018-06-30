@@ -1,10 +1,10 @@
 package com.al.akademia.beans;
 
-import java.text.ParseException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 import com.al.akademia.dao.ChairDao;
@@ -23,6 +23,7 @@ public class ReservationBean {
 	private int user;
 	private int chair;
 	private int show;
+	private Show show1;
 	private List<User> users;
 	private List<Chair> chairs;
 	private List<Show> shows;
@@ -31,10 +32,18 @@ public class ReservationBean {
 	
 	@ManagedProperty(value="#{userBean}")
 	private UserBean userBean;
-	@ManagedProperty(value="#{showBean}")
-	private ShowBean showBean;
+	/*@ManagedProperty(value="#{showBean}")
+	private ShowBean showBean;*/
 	
 	
+	public Show getShow1() {
+		return show1;
+	}
+
+	public void setShow1(Show show1) {
+		this.show1 = show1;
+	}
+
 	public String getSuccessMessage() {
 		return successMessage;
 	}
@@ -116,37 +125,34 @@ public class ReservationBean {
 		this.userBean = userBean;
 	}
 
-	public ShowBean getShowBean() {
+	/*public ShowBean getShowBean() {
 		return showBean;
 	}
 
 	public void setShowBean(ShowBean showBean) {
 		this.showBean = showBean;
-	}
+	}*/
 
 	public ReservationBean() {
+		show1 = new Show();
 		reservations = ReservationDao.getReservationFromDb();
 		reservation = new Reservation();
 		shows = ShowDao.getShowsFromDB();
 		users = UserDao.getUsersFromDB();
-		chairs = ChairDao.getChairsFromDB();
+		//chairs = ChairDao.getChairsFromDB();
+		if(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id")!=null) {
+			show1 = ShowDao.getShowById(Integer.valueOf(String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id"))));
+			reservation.setShow(show1);
+			chairs= ChairDao.getAllChairsOfMonitor(show1.getMonitor().getId());
+			
+		}else {
+			
+			System.out.println("jo");
+		show1 = new Show();
+		}
 	}
 
-	/*public String addReservation() throws ParseException {
 
-		Reservation reservation = new Reservation();
-		reservation.setPerson(reservation.getPerson());
-		reservation.setChair(ChairDao.getChairById(chair));
-		reservation.setShow(ShowDao.getShowById(show));
-		reservation.setUser(UserDao.getUserById(user));
-		if (ReservationDao.addReservation(reservation)) {
-			System.out.println("show added");
-
-		} else {
-			System.out.println("show was not added");
-		}
-		return null;
-	}*/
 	public String deleteReservation(String id) {
 
 		if (ReservationDao.deleteReservation(id)) {
@@ -162,11 +168,12 @@ public class ReservationBean {
 	}
 	
 	public void addReservation() {
+		System.out.println("shtim");
 		Reservation reservation = new Reservation();
 		
-		reservation.setPerson("prove");
+		reservation.setPerson(reservation.getPerson());
 		reservation.setChair(ChairDao.getChairById(Integer.valueOf(chair)));
-		reservation.setShow(ShowDao.getShowById(showBean.getShow1().getId()));
+		reservation.setShow(ShowDao.getShowById(show1.getId()));
 		reservation.setUser(userBean.getUser());
 		if (ReservationDao.addReservation(reservation)) {
 			System.out.println("reservation added");
@@ -176,12 +183,10 @@ public class ReservationBean {
 		}
 	}
 	public String choose(String showId) {
-		System.out.println(showId);
-		//Reservation reservation1 = new Reservation();
-		//show= Integer.valueOf(showId);
-		reservation.setShow(ShowDao.getShowById(Integer.valueOf(showId)));
-		//Show show= ShowDao.getShowById(Integer.valueOf(showId));
-		return "client_reservation?faces-redirect=true";
+		//System.out.println(showId);
+		//reservation.setShow(ShowDao.getShowById(Integer.valueOf(showId)));
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", showId );
+		return "reservation1?faces-redirect=true";
 		
 	}
 }

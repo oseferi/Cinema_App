@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Cinema Administration Platform"/>
+    <meta name="author" content="O. Seferi &#38; J. Murataj"/>
+    <meta name="keywords" content="cinema cms administration movies shows reservation"/>
+
+    <!-- Title Page-->
+    <title>Add a Show</title>
+
+        <ui:include name="header" src="parts/stylesheets.html" />
+    
+    
+</h:head>
+<h:body class="animsition">
+
+    <div class="page-wrapper">
+        <ui:include src="parts/menu_sidebar.xhtml"></ui:include>
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container2">
+            
+            <ui:include src="parts/header_desktop.xhtml"></ui:include>
+            
+            <!-- BREADCRUMB-->
+            <section class="au-breadcrumb m-t-75">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="au-breadcrumb-content">
+                                    <div class="au-breadcrumb-left">
+                                        <span class="au-breadcrumb-span">You are here:</span>
+                                        <ul class="list-unstyled list-inline au-breadcrumb__list">
+                                            <li class="list-inline-item active">
+                                                <a href="http://localhost:8083/cinema-app/admin/index.xhtml">Administrator Panel</a>
+                                            </li>
+                                            <li class="list-inline-item seprate">
+                                                <span>/</span>
+                                            </li>
+                                            <li class="list-inline-item">Show Addition Form</li>
+                                        </ul>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END BREADCRUMB-->
+
+            <!-- F U N C T I O N A L I T I E S-->
+			<br/>
+					<div class="section__content section__content--p30">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-8 offset-md-2">
+									<div class="card">
+										<div class="card-header">Add a Show</div>
+										<div class="card-body">
+											<div class="card-title">
+												<h3 class="text-center title-2">Fill the form</h3>
+											</div>
+											<hr/>
+										
+										<h:form>
+											<div class="form-group">
+												<label  class="control-label mb-1">Movie </label>
+												 <h:selectOneMenu id="sh_movie" class="form-control" value="#{showBean.movieId}" label="Movie" required="true">
+												<f:selectItems value="#{movieBean.movies}" var="movie"
+													itemValue="#{movie.id}" itemLabel="#{movie.title}" />
+												</h:selectOneMenu>
+												<h:message for="sh_movie" style="color:red" />	
+											</div>
+											<div class="form-group">
+												<label  class="control-label mb-1">Monitor </label>
+												<h:selectOneMenu value="#{showBean.monitorId}" id="sh_monitor" label="Monitor" class="form-control" required="true">
+												<f:selectItems value="#{monitorBean.monitors}" var="monitor"
+													itemValue="#{monitor.id}" itemLabel="#{monitor.name}" />
+												</h:selectOneMenu>
+												<h:message for="sh_monitor" style="color:red" />	
+											</div>
+											
+											<div class="form-group">
+												<label  class="control-label mb-1">Date &amp; Time </label>	
+												
+												<div class="row">
+													<div class="col-md-6">
+													
+														<h:inputText id="sh_date" class="form-control " p:type="date" p:min="#{showBean.dateNow}" label="Date" value="#{showBean.stringDate}" required="true">
+														</h:inputText>
+													</div>
+													<div class="col-md-2 ">	
+														<h:inputText id="sh_hour" class="form-control " min="0" max="23" p:type="number" label="Hour" value="#{showBean.stringHour}" required="true">
+															<f:validateLongRange minimum="8" maximum="20" />
+														</h:inputText>
+														
+													</div>
+													<div class="col-md-2">	
+														<h:inputText id="sh_minute" class="form-control "  p:type="number" label="Minute" value="#{showBean.stringMinute}" required="true">
+															<f:validateLongRange minimum="0" maximum="59" />
+														</h:inputText>
+													</div>
+												</div>
+												<h:message for="sh_date" style="color:red" />
+												<h:message for="sh_hour"  style="color:red" />
+												<h:message for="sh_minute" style="color:red" />
+												Please keep in mind that the Cinema is open between hours 08-20
+															
+											</div>
+											
+											<h:commandButton class="btn btn-lg btn-info btn-block" value="Add show" action="#{showBean.addShow}">
+												<f:ajax disabled="true" render="script" />
+												<f:ajax disabled="true" render="@form"/>
+											</h:commandButton>
+											<h:panelGroup id="script">
+												<h:outputScript rendered="#{not empty showBean.script}">#{showBean.script}</h:outputScript>
+											</h:panelGroup>
+													
+										</h:form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+			 
+            <!-- E N D  F U N C T I O N A L I T I E S-->
+
+            
+            
+            <ui:include src="parts/footer.xhtml"></ui:include>
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <ui:include src="parts/scripts.xhtml"></ui:include>
+</h:body>
+
+</html>

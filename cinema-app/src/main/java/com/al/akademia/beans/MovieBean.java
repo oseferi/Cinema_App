@@ -1,10 +1,12 @@
 
 package com.al.akademia.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.al.akademia.dao.CategoryDao;
 import com.al.akademia.dao.CountryDao;
@@ -14,8 +16,8 @@ import com.al.akademia.entitete.Country;
 import com.al.akademia.entitete.Movie;
 
 @ManagedBean(name = "movieBean")
-@SessionScoped
-public class MovieBean {
+@ViewScoped
+public class MovieBean implements Serializable{
 	private Movie movie;
 	private Movie movieToBeUpdated;
 	private List<Movie> movies;
@@ -25,14 +27,18 @@ public class MovieBean {
 	private int countryToBeUpdated;
 	private int category;
 	private int categoryToBeUpdated;
-	private String successMessage;
 
-	public String getSuccessMessage() {
-		return successMessage;
+	private String script;
+
+	
+	
+	
+	public String getScript() {
+		return script;
 	}
 
-	public void setSuccessMessage(String successMessage) {
-		this.successMessage = successMessage;
+	public void setScript(String script) {
+		this.script = script;
 	}
 
 	public Movie getMovieToBeUpdated() {
@@ -81,8 +87,12 @@ public class MovieBean {
 		movies = MovieDao.getMoviesFromDB();
 		categories = CategoryDao.getAllCategories();
 		countries = CountryDao.getAllCountries();
+		
+		if(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id")!=null) {
+			movieToBeUpdated = MovieDao.getMovieById(Integer.valueOf(String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id"))));
+		}else {
 		movieToBeUpdated = new Movie();
-
+		}
 	}
 
 	/************************************
@@ -121,29 +131,31 @@ public class MovieBean {
 		this.countries = countries;
 	}
 
-	/*****************************************
-	 * M A N I P U L A T I O N L O G I C
-	 ****************************************/
+	
+	/**************************************************
+	 *D A T A    M A N I P U L A T I O N    L O G I C
+	 *************************************************/
 
 	public String addMovie() {
-		Movie movie1 = new Movie();
-		movie1.setCategory(CategoryDao.getCategoryById(category));
-		movie1.setCountry(CountryDao.getCountryById(country));
-		movie1.setTitle(movie.getTitle());
-		movie1.setImdb(movie.getImdb());
-		movie1.setDescription(movie.getDescription());
-		movie1.setDirector(movie.getDirector());
-		movie1.setDuration(movie.getDuration());
-		movie1.setRating(movie.getRating());
-		movie1.setYear(movie.getYear());
+		Movie movieToAdd = new Movie();
+		movieToAdd.setCategory(CategoryDao.getCategoryById(category));
+		movieToAdd.setCountry(CountryDao.getCountryById(country));
+		movieToAdd.setTitle(movie.getTitle());
+		movieToAdd.setImdb(movie.getImdb());
+		movieToAdd.setDescription(movie.getDescription());
+		movieToAdd.setDirector(movie.getDirector());
+		movieToAdd.setDuration(movie.getDuration());
+		movieToAdd.setRating(movie.getRating());
+		movieToAdd.setYear(movie.getYear());
 
-		if (MovieDao.addMovie(movie1)) {
+		if (MovieDao.addMovie(movieToAdd)) {
 			System.out.println("movie added");
-
-			 updateMovies();
+			setScript("alert('Movie with title "+movieToAdd.getTitle()+" was added succesfully.'); window.location.replace(window.location.href.replace('edit_movie','movies'));");
+			refreshMovieFields();
+			updateMovies();
 		} else {
 
-			//updateMovies();
+		setScript("alert('Movie with title "+movieToAdd.getTitle()+" failed to be added.If the problem persists please contact the administrator');");
 		System.out.println("movie was not added");
 		}
 		return null;
@@ -152,10 +164,12 @@ public class MovieBean {
 	public String deleteMovie(String id) {
 
 		if (MovieDao.deleteMovie(Integer.valueOf(id))) {
-			System.out.println("movie removed");
+			System.out.println("movie with id"+id+" removed");
+			setScript("alert('Movie was deleted succesfully.');");
 			updateMovies();
 		} else {
 			System.out.println("movie was not removed");
+			setScript("alert('Movie cannot be deleted .');");
 		}
 		return null;
 	}
@@ -165,12 +179,13 @@ public class MovieBean {
 	}
 
 	public String editAction(int movieId) {
-		movieToBeUpdated = MovieDao.getMovieById(movieId);
-		return "edit_movie";
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", movieId );
+		return "edit_movie?faces-redirect=true";
 	}
 
 	public String updateAction(int id, Movie movie) {
-
+		System.out.println(categoryToBeUpdated);
+		System.out.println(countryToBeUpdated);
 		Category newCategory = CategoryDao.getCategoryById(categoryToBeUpdated);
 		Country newCountry = CountryDao.getCountryById(countryToBeUpdated);
 		movie.setCategory(newCategory);
@@ -178,14 +193,18 @@ public class MovieBean {
 		
 		
 		if(MovieDao.updateMovie(id, movie)) {
-			successMessage="Movie with Id "+ String.valueOf(id) + " updated succesfully";
+			setScript("alert('Movie was updated succesfully.'); window.location.replace(window.location.href.replace('edit_movie','movies'));");
 			updateMovies();
-			return "response_movie";
+			return null;
 		}
 		else {
-			successMessage="Movie with Id "+ String.valueOf(id) + "was not updated succesfully";
-			return "response_movie";
+			setScript("alert('Movie could not be updated.');");
+			return null;
 		}
-
+		
     }
+	
+	public void refreshMovieFields() {
+		movie = new Movie();
+	}
 }

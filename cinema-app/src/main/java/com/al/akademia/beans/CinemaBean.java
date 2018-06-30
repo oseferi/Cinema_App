@@ -3,7 +3,8 @@ package com.al.akademia.beans;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.al.akademia.dao.CinemaDao;
 import com.al.akademia.dao.RoomDao;
@@ -11,7 +12,7 @@ import com.al.akademia.entitete.Cinema;
 import com.al.akademia.entitete.Room;
 
 @ManagedBean(name="cinemaBean")
-@SessionScoped
+@ViewScoped
 public class CinemaBean {
 
 	private Cinema cinema;
@@ -19,12 +20,19 @@ public class CinemaBean {
 	private Room roomToBeUpdated;
 	private List<Room> rooms;
 	private String successMessage;
+	private String script;
+	
 	
 	public CinemaBean() {
 		cinema = CinemaDao.getThisCinema();
 		room = new Room();
-		roomToBeUpdated = new Room();
+
 		rooms = RoomDao.getAllRooms();
+		if(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id")!=null) {
+			roomToBeUpdated = RoomDao.getRoomById(Integer.valueOf(String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id"))));
+		}else {
+			roomToBeUpdated = new Room();
+			}
 	}
 
 	public Room getRoom() {
@@ -68,6 +76,17 @@ public class CinemaBean {
 		this.successMessage = successMessage;
 	}
 
+	
+	
+	
+	public String getScript() {
+		return script;
+	}
+
+	public void setScript(String script) {
+		this.script = script;
+	}
+
 	/*****************************************
 	 * M A N I P U L A T I O N     L O G I C
 	 ****************************************/
@@ -77,12 +96,13 @@ public class CinemaBean {
 		newRoom.setName(room.getName());
 		newRoom.setDescription(room.getDescription());
 		newRoom.setCinema(cinema);
-		//newRoom.setCinema(rooms.get(0).getCinema());
 		if(RoomDao.addRoom(newRoom)) {
+			setScript("alert('Room was added succesfully.');window.location.replace(window.location.href.replace('add_room','rooms'));");
 			System.out.println("room added");
 			updateRooms();
 		}
 		else {
+			setScript("alert('Room was NOT added.If the problem persists please contact the admnistrator');");
 			System.out.println("room was not added");
 		}
 		room.setName(null);
@@ -93,10 +113,12 @@ public class CinemaBean {
 	public String deleteRoom(String id) {
 		
 		if(RoomDao.deleteRoom(Integer.valueOf(id))) {
+			setScript("alert('Room was deleted succesfully.');");
 			System.out.println("room removed");
 			updateRooms();
 		}
 		else {
+			setScript("alert('Room was NOT deleted.If the problem persists please contact the admnistrator.');");
 			System.out.println("room was not removed");
 		}
 		return null;
@@ -107,20 +129,20 @@ public class CinemaBean {
 	}
 	
 	public String editAction(int roomId) {
-		roomToBeUpdated = RoomDao.getRoomById(roomId);
-		return "edit_room";
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", roomId );
+		return "edit_room?faces-redirect=true";
 	}
 	
 	public String updateAction(int id,Room room) {
 		
 		if(RoomDao.updateRoom(id, room)) {
-			successMessage="Room with Id "+ String.valueOf(id) + " updated succesfully";
+			setScript("alert('Room was updated succesfully.');window.location.replace(window.location.href.replace('edit_room','rooms'));");
 			updateRooms();
-			return "response_room";
+			return null ;
 		}
 		else {
-			successMessage="Room with Id "+ String.valueOf(id) + "was not updated succesfully";
-			return "response_room";
+			setScript("alert('Room was could NOT be updated.If the problem persists please contact the admnistrator');");
+			return null;
 		}
 	
 	}

@@ -14,27 +14,22 @@ import com.al.akademia.utility.HibernateUtil;
 public class ReservationDao {
 
 	private static Transaction transObj;
-	
+	private static Session sessionObj = HibernateUtil.getSessionFactory().openSession();
 
 	public static boolean addReservation(Reservation reservation) {
-		Session sessionObj = HibernateUtil.getSessionFactory().openSession();
+		
 
 		try {
-			transObj = sessionObj.beginTransaction();
-			//sessionObj.merge(reservation);
+			//transObj = sessionObj.beginTransaction();
 			sessionObj.save(reservation);
-			transObj.commit();
+			//transObj.commit();
 			return true;
 		} catch (Exception exceptionObj) {
-
 			exceptionObj.printStackTrace();
 			return false;
 		} 
 	}
 	
-
-	
-
 	public static boolean deleteReservation(String id) {
 		Session sessionObj = HibernateUtil.getSessionFactory().openSession();
 
@@ -106,7 +101,6 @@ public class ReservationDao {
 		try {
 
 			transObj = sessionObj.beginTransaction();
-
 			Query query = sessionObj.createQuery("from Show where id =:id");
 			query.setParameter("id", showId);
 

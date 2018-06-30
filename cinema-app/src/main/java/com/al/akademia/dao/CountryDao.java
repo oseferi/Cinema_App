@@ -19,17 +19,11 @@ public class CountryDao {
 	    
 	    Country country = null;
 	    try {
-	    	//sessionObj = HibernateUtil.getSessionFactory().openSession();
-	    	transObj = sessionObj.beginTransaction();
 	    	
 	    	country = (Country) sessionObj.get(Country.class, countryId);
-	    	transObj.commit();
 	    	} 
 	    catch (Exception e) {
-	    	
-	    	transObj.rollback();
 	    	e.printStackTrace();
-	       
 	    	} 
 	    
 	    return country;
@@ -39,14 +33,11 @@ public class CountryDao {
 
 		try {
 		
-	    	transObj = sessionObj.beginTransaction();
 			List<Country> countries = sessionObj.createQuery("from Country ").getResultList();
-			transObj.commit();
 			return countries;
 			} 
 		catch (Exception exceptionObj) {
 
-	    	transObj.rollback();
 			exceptionObj.printStackTrace();
 			return null;
 			

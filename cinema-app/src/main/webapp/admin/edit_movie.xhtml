@@ -1,62 +1,402 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
-	<title>Edit Movie</title>
+
+	<!-- Required meta tags-->
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="au theme template" />
+	<meta name="author" content="Hau Nguyen" />
+	<meta name="keywords" content="au theme template" />
+
+	<!-- Title Page-->
+	<title>Movie Update Form</title>
+
+	<ui:include name="header" src="parts/stylesheets.html" />
+
+
 </h:head>
-<h:body>
-	<h2>Edit Movie with id #{movieBean.movieToBeUpdated.id}</h2>
-	<h:form>
-    	   Title :<h:inputText value="#{movieBean.movieToBeUpdated.title}"></h:inputText>
-		<br />
-    	   
-    	   Description:<h:inputText value="#{movieBean.movieToBeUpdated.description}"></h:inputText>
-		<br />
-    	   
-    	   IMDB:<h:inputText value="#{movieBean.movieToBeUpdated.imdb}"></h:inputText>
-		<br />
-    	   
-    	   Category:
-    	   <h:selectOneMenu value="#{movieBean.categoryToBeUpdated}">
-    	    <f:selectItem itemValue="#{movieBean.movieToBeUpdated.category.id}" itemLabel="#{movieBean.movieToBeUpdated.category.name}"></f:selectItem>
-			<f:selectItems value="#{movieBean.categories}" var="category"
-				itemValue="#{category.id}" itemLabel="#{category.name}" />
-		</h:selectOneMenu>
-		<br />
-    	   
-    	   Duration:<h:inputText value="#{movieBean.movieToBeUpdated.duration}">
-			<f:converter converterId="javax.faces.Integer" />
-		</h:inputText>
-		<br />
-    	   
-    	   Director:<h:inputText value="#{movieBean.movieToBeUpdated.director}"></h:inputText>
-		<br />
-    	   
-    	   Year:<h:inputText value="#{movieBean.movieToBeUpdated.year}">
-			<f:converter converterId="javax.faces.Integer" />
-		</h:inputText>
-		<br />
-    	   
-    	   Rating:<h:inputText value="#{movieBean.movieToBeUpdated.rating}">
-			<f:converter converterId="javax.faces.Integer" />
-		</h:inputText>
-		<br />
-    	   
-    	   Country:
-    	   <h:selectOneMenu value="#{movieBean.countryToBeUpdated}">
-    	   <f:selectItem itemValue="#{movieBean.movieToBeUpdated.country.id}" itemLabel="#{movieBean.movieToBeUpdated.country.name}"></f:selectItem>
-			<f:selectItems value="#{movieBean.countries}" var="country"
-				itemValue="#{country.id}" itemLabel="#{country.name}" />
-			</h:selectOneMenu>
-		<br />
+<h:body class="animsition">
 
+	<div class="page-wrapper">
+		<ui:include src="parts/menu_sidebar.xhtml"></ui:include>
 
-		<h:commandButton value="go" action="#{movieBean.updateAction(movieBean.movieToBeUpdated.id,movieBean.movieToBeUpdated)}"></h:commandButton>
-	</h:form>
+		<!-- PAGE CONTAINER-->
+		<div class="page-container2">
 
+			<ui:include src="parts/header_desktop.xhtml"></ui:include>
+
+			<!-- BREADCRUMB-->
+			<section class="au-breadcrumb m-t-75">
+			<div class="section__content section__content--p30">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="au-breadcrumb-content">
+								<div class="au-breadcrumb-left">
+									<span class="au-breadcrumb-span">You are here:</span>
+									<ul class="list-unstyled list-inline au-breadcrumb__list">
+										<li class="list-inline-item "><a
+											href="http://localhost:8880/cinema-app/admin/index.xhtml">Administrator
+												Panel</a></li>
+										<li class="list-inline-item seprate"><span>/</span></li>
+										<li class="list-inline-item"><a
+											href="http://localhost:8880/cinema-app/admin/movies.xhtml">Movies</a>
+										</li>
+										<li class="list-inline-item seprate active"><span>/</span>
+										</li>
+										<li class="list-inline-item">Update Movie</li>
+									</ul>
+								</div>
+
+       
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+			<!-- END BREADCRUMB-->
+
+			<!-- F U N C T I O N A L I T I E S-->
+			<!-- MAIN CONTENT-->
+			<br/>
+					<div class="section__content section__content--p30">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-8 offset-md-2">
+									<div class="card">
+										<div class="card-header">Edit the Movie</div>
+										<div class="card-body">
+											<div class="card-title">
+												<h3 class="text-center title-2">#{movieBean.movieToBeUpdated.title}</h3>
+											</div>
+											<hr/>
+											<h:form >
+												<div class="form-group">
+													<label  class="control-label mb-1">Movie Title</label>
+													<h:inputText id="mtitle" class="form-control" value="#{movieBean.movieToBeUpdated.title}" label="Title" required="true"></h:inputText>
+													<h:message for="mtitle" style="color:red" />
+													
+												</div>
+												<div class="form-group">
+													<label  class="control-label mb-1">Description</label>
+													<h:inputTextarea id="mdescription" class="form-control" value="#{movieBean.movieToBeUpdated.description}" label="Description" required="true"></h:inputTextarea>
+													<h:message for="mdescription" style="color:red" />
+												</div>
+												<div class="form-group">
+													<label  class="control-label mb-1">IMDB</label>
+													<h:inputText id="mimdb" class="form-control" value="${movieBean.movieToBeUpdated.imdb}" disabled="true" ></h:inputText>
+													<h:message for="mimdb" style="color:red" />
+												</div>   
+												<div class="form-group">
+													<label  class="control-label mb-1">Category</label>
+													<h:selectOneMenu id="mcategory" class="form-control" value="#{movieBean.categoryToBeUpdated}" label="Category" required="true">
+													 <f:selectItem itemValue="#{movieBean.movieToBeUpdated.category.id}" itemLabel="#{movieBean.movieToBeUpdated.category.name}--Active"></f:selectItem>
+													<f:selectItems value="#{movieBean.categories}" var="category"
+														itemValue="#{category.id}" itemLabel="#{category.name}" />
+													</h:selectOneMenu>
+													<h:message for="mcategory" style="color:red" />
+												</div>
+													
+												<div class="form-group">
+													<label  class="control-label mb-1">Duration</label>
+													<h:inputText id="mduration" class="form-control" p:type="number" p:max="300" value="${movieBean.movieToBeUpdated.duration}" label="Duration" disabled="true">
+														<f:converter converterId="javax.faces.Integer" />
+														<f:validateLongRange minimum="30" maximum="300" />
+													</h:inputText>
+													<h:message for="mduration" style="color:red" />
+												</div>  
+												   
+												<div class="form-group">
+													<label  class="control-label mb-1">Director</label>
+													<h:inputText id="mdirector" value="#{movieBean.movieToBeUpdated.director}" label="Director" class="form-control" required="true"></h:inputText>
+													<h:message for="mtitle" style="color:red" />
+												</div>    
+												   
+												<div class="form-group">
+													<label  class="control-label mb-1">Year</label>
+													<h:inputText id="myear" class="form-control" p:type="number" value="#{movieBean.movieToBeUpdated.year}" label="Year" p:min="1960" p:max="2020" required="true">
+														<f:converter converterId="javax.faces.Integer" />
+														<f:validateLongRange minimum="1960" maximum="2030" />
+													</h:inputText>
+													<h:message for="myear" style="color:red" />
+												</div> 
+												   
+												<div class="form-group">
+													<label  class="control-label mb-1">Rating</label>
+													<h:inputText id="mrating" value="#{movieBean.movieToBeUpdated.rating}" label="Rating" p:min="1" p:max="10" class="form-control">
+														<f:converter converterId="javax.faces.Integer" />
+														<f:validateLongRange minimum="1" maximum="10" />
+													</h:inputText>
+													<h:message for="mrating" style="color:red" />
+												</div> 
+																							   
+												<div class="form-group">
+													<label  class="control-label mb-1">Country</label>
+													<h:selectOneMenu id="mcountry" value="#{movieBean.countryToBeUpdated}" label="Country" required="true" class="form-control">
+													<f:selectItem itemValue="#{movieBean.movieToBeUpdated.country.id}" itemLabel="#{movieBean.movieToBeUpdated.country.name}--Active"></f:selectItem>
+													<f:selectItems value="#{movieBean.countries}" var="country"
+														itemValue="#{country.id}" itemLabel="#{country.name}" />
+													</h:selectOneMenu>
+													<h:message for="mcountry" style="color:red" />
+												</div>
+												   
+												<div class="form-group">
+													<h:commandButton class="btn btn-lg btn-info btn-block" value="Update" action="#{movieBean.updateAction(movieBean.movieToBeUpdated.id,movieBean.movieToBeUpdated)}">
+														<f:ajax disabled="true" event="action" execute="@form" render="script"/>
+														</h:commandButton>
+												</div>
+											</h:form>
+											<h:panelGroup id="script">
+														<h:outputScript rendered="#{not empty movieBean.script}">#{movieBean.script}</h:outputScript>
+											</h:panelGroup>
+			<br />
+			<div class="section__content section__content--p30">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-8 offset-md-2">
+							<div class="card">
+								<div class="card-header">Edit the Movie</div>
+								<div class="card-body">
+									<div class="card-title">
+										<h3 class="text-center title-2">#{movieBean.movieToBeUpdated.title}</h3>
+									</div>
+									<hr />
+									<h:form>
+										<div class="form-group">
+											<label class="control-label mb-1">Movie Title</label>
+											<h:inputText id="mtitle" class="form-control"
+												value="#{movieBean.movieToBeUpdated.title}" label="Title"
+												required="true"></h:inputText>
+											<h:message for="mtitle" style="color:red" />
+
+										</div>
+										<div class="form-group">
+											<label class="control-label mb-1">Description</label>
+											<h:inputTextarea id="mdescription" class="form-control"
+												value="#{movieBean.movieToBeUpdated.description}"
+												label="Description" required="true"></h:inputTextarea>
+											<h:message for="mdescription" style="color:red" />
+										</div>
+										<div class="form-group">
+											<label class="control-label mb-1">IMDB</label>
+											<h:inputText id="mimdb" class="form-control"
+												value="${movieBean.movieToBeUpdated.imdb}" disabled="true"></h:inputText>
+											<h:message for="mimdb" style="color:red" />
+										</div>
+										<div class="form-group">
+											<label class="control-label mb-1">Category</label>
+											<h:selectOneMenu id="mcategory" class="form-control"
+												value="#{movieBean.categoryToBeUpdated}" label="Category"
+												required="true">
+												<f:selectItem
+													itemValue="#{movieBean.movieToBeUpdated.category.id}"
+													itemLabel="#{movieBean.movieToBeUpdated.category.name}--Active"></f:selectItem>
+												<f:selectItems value="#{movieBean.categories}"
+													var="category" itemValue="#{category.id}"
+													itemLabel="#{category.name}" />
+											</h:selectOneMenu>
+											<h:message for="mcategory" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Duration</label>
+											<h:inputText id="mduration" class="form-control"
+												p:type="number" p:max="300"
+												value="${movieBean.movieToBeUpdated.duration}"
+												label="Duration" disabled="true">
+												<f:converter converterId="javax.faces.Integer" />
+											</h:inputText>
+											<h:message for="mduration" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Director</label>
+											<h:inputText id="mdirector"
+												value="#{movieBean.movieToBeUpdated.director}"
+												label="Director" class="form-control" required="true"></h:inputText>
+											<h:message for="mtitle" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Year</label>
+											<h:inputText id="myear" class="form-control" p:type="number"
+												value="#{movieBean.movieToBeUpdated.year}" label="Year"
+												p:min="1960" p:max="2020" required="true">
+												<f:converter converterId="javax.faces.Integer" />
+											</h:inputText>
+											<h:message for="myear" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Rating</label>
+											<h:inputText id="mrating"
+												value="#{movieBean.movieToBeUpdated.rating}" label="Rating"
+												p:min="1" p:max="10" class="form-control">
+												<f:converter converterId="javax.faces.Integer" />
+											</h:inputText>
+											<h:message for="mrating" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Country</label>
+											<h:selectOneMenu id="mcountry"
+												value="#{movieBean.countryToBeUpdated}" label="Country"
+												required="true" class="form-control">
+												<f:selectItem
+													itemValue="#{movieBean.movieToBeUpdated.country.id}"
+													itemLabel="#{movieBean.movieToBeUpdated.country.name}--Active"></f:selectItem>
+												<f:selectItems value="#{movieBean.countries}" var="country"
+													itemValue="#{country.id}" itemLabel="#{country.name}" />
+											</h:selectOneMenu>
+											<h:message for="mcountry" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<h:commandButton class="btn btn-lg btn-info btn-block"
+												value="Update"
+												action="#{movieBean.updateAction(movieBean.movieToBeUpdated.id,movieBean.movieToBeUpdated)}">
+												<f:ajax disabled="true" event="action" execute="@form"
+													render="script" />
+											</h:commandButton>
+			<br />
+			<div class="section__content section__content--p30">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-8 offset-md-2">
+							<div class="card">
+								<div class="card-header">Edit the Movie</div>
+								<div class="card-body">
+									<div class="card-title">
+										<h3 class="text-center title-2">#{movieBean.movieToBeUpdated.title}</h3>
+									</div>
+									<hr />
+									<h:form>
+										<div class="form-group">
+											<label class="control-label mb-1">Movie Title</label>
+											<h:inputText id="mtitle" class="form-control"
+												value="#{movieBean.movieToBeUpdated.title}" label="Title"
+												required="true"></h:inputText>
+											<h:message for="mtitle" style="color:red" />
+
+										</div>
+										<div class="form-group">
+											<label class="control-label mb-1">Description</label>
+											<h:inputTextarea id="mdescription" class="form-control"
+												value="#{movieBean.movieToBeUpdated.description}"
+												label="Description" required="true"></h:inputTextarea>
+											<h:message for="mdescription" style="color:red" />
+										</div>
+										<div class="form-group">
+											<label class="control-label mb-1">IMDB</label>
+											<h:inputText id="mimdb" class="form-control"
+												value="${movieBean.movieToBeUpdated.imdb}" disabled="true"></h:inputText>
+											<h:message for="mimdb" style="color:red" />
+										</div>
+										<div class="form-group">
+											<label class="control-label mb-1">Category</label>
+											<h:selectOneMenu id="mcategory" class="form-control"
+												value="#{movieBean.categoryToBeUpdated}" label="Category"
+												required="true">
+												<f:selectItem
+													itemValue="#{movieBean.movieToBeUpdated.category.id}"
+													itemLabel="#{movieBean.movieToBeUpdated.category.name}--Active"></f:selectItem>
+												<f:selectItems value="#{movieBean.categories}"
+													var="category" itemValue="#{category.id}"
+													itemLabel="#{category.name}" />
+											</h:selectOneMenu>
+											<h:message for="mcategory" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Duration</label>
+											<h:inputText id="mduration" class="form-control"
+												p:type="number" p:max="300"
+												value="${movieBean.movieToBeUpdated.duration}"
+												label="Duration" disabled="true">
+												<f:converter converterId="javax.faces.Integer" />
+											</h:inputText>
+											<h:message for="mduration" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Director</label>
+											<h:inputText id="mdirector"
+												value="#{movieBean.movieToBeUpdated.director}"
+												label="Director" class="form-control" required="true"></h:inputText>
+											<h:message for="mtitle" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Year</label>
+											<h:inputText id="myear" class="form-control" p:type="number"
+												value="#{movieBean.movieToBeUpdated.year}" label="Year"
+												p:min="1960" p:max="2020" required="true">
+												<f:converter converterId="javax.faces.Integer" />
+											</h:inputText>
+											<h:message for="myear" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Rating</label>
+											<h:inputText id="mrating"
+												value="#{movieBean.movieToBeUpdated.rating}" label="Rating"
+												p:min="1" p:max="10" class="form-control">
+												<f:converter converterId="javax.faces.Integer" />
+											</h:inputText>
+											<h:message for="mrating" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<label class="control-label mb-1">Country</label>
+											<h:selectOneMenu id="mcountry"
+												value="#{movieBean.countryToBeUpdated}" label="Country"
+												required="true" class="form-control">
+												<f:selectItem
+													itemValue="#{movieBean.movieToBeUpdated.country.id}"
+													itemLabel="#{movieBean.movieToBeUpdated.country.name}--Active"></f:selectItem>
+												<f:selectItems value="#{movieBean.countries}" var="country"
+													itemValue="#{country.id}" itemLabel="#{country.name}" />
+											</h:selectOneMenu>
+											<h:message for="mcountry" style="color:red" />
+										</div>
+
+										<div class="form-group">
+											<h:commandButton class="btn btn-lg btn-info btn-block"
+												value="Update"
+												action="#{movieBean.updateAction(movieBean.movieToBeUpdated.id,movieBean.movieToBeUpdated)}">
+												<f:ajax disabled="true" event="action" execute="@form"
+													render="script" />
+											</h:commandButton>
+										</div>
+									</h:form>
+									<h:panelGroup id="script">
+										<h:outputScript rendered="#{not empty movieBean.script}">#{movieBean.script}</h:outputScript>
+									</h:panelGroup>
+								</div>
+							</div>
+						</div>
+					</div>
+			   
+            <!-- E N D  F U N C T I O N A L I T I E S-->
+
+            
+            
+            <ui:include src="parts/footer.xhtml"></ui:include>
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <ui:include src="parts/scripts.xhtml"></ui:include>
 </h:body>
+
 </html>

@@ -1,59 +1,138 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
-	<title>Display Shows</title>
+	<!-- Required meta tags-->
+	<meta charset="UTF-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="au theme template" />
+	<meta name="author" content="Hau Nguyen" />
+	<meta name="keywords" content="au theme template" />
+
+	<!-- Title Page-->
+	<title>All Shows</title>
+
+	<ui:include name="header" src="parts/stylesheets.html" />
+
+
 </h:head>
-<h:body>
-	<h2>The current avaible shows</h2>
+<h:body class="animsition">
 
-	<h:form>
-		<h:dataTable value="#{showBean.shows}" var="show"
-			styleClass="employeeTable" headerClass="employeeTableHeader"
-			rowClasses="employeeTableOddRow,employeeTableEvenRow">
+	<div class="page-wrapper">
+		<ui:include src="parts/menu_sidebar.xhtml"></ui:include>
 
-			<h:column>
-				<f:facet name="header">ID:</f:facet>
-				<h:outputText value=" #{show.id}" />
+		<!-- PAGE CONTAINER-->
+		<div class="page-container2">
 
-			</h:column>
+			<ui:include src="parts/header_desktop.xhtml"></ui:include>
 
-			<h:column>
-				<f:facet name="header">Date:</f:facet>
-				<h:outputText value="#{show.start}">
-					<f:convertDateTime dateStyle="full" pattern="yyyy-MM-dd HH:mm" />
-				</h:outputText>
-			</h:column>
+			<!-- BREADCRUMB-->
+			<section class="au-breadcrumb m-t-75">
+			<div class="section__content section__content--p30">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="au-breadcrumb-content">
+								<div class="au-breadcrumb-left">
+									<span class="au-breadcrumb-span">You are here:</span>
+									<ul class="list-unstyled list-inline au-breadcrumb__list">
+										<li class="list-inline-item active"><a
+											href="http://localhost:8083/cinema-app/admin/index.xhtml">Client
+												Panel</a></li>
+										<li class="list-inline-item seprate"><span>/</span></li>
+										<li class="list-inline-item">Shows that you can watch</li>
+									</ul>
+								</div>
 
-			<h:column>
-				<f:facet name="header">Monitor:</f:facet>
-				<h:outputText value="#{show.monitor.id}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</section>
+			<!-- END BREADCRUMB-->
 
-			</h:column>
+			<!-- F U N C T I O N A L I T I E S-->
+			<!-- MAIN CONTENT-->
+			<!--  div class="main-content"-->
+			<br />
+			<div class="section__content section__content--p30">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- DATA TABLE -->
+							<div class="table-data__tool">
+								<div class="table-data__tool-left">
+									<h3>All Shows</h3>
+								</div>
+								
+							</div>
+							<div class="table-responsive table--no-card m-b-30">
+								<h:form>
+									<h:dataTable value="#{showBean.shows}" var="show"
+										class="table table-borderless table-striped table-earning">
+										<h:column>
+											<f:facet name="header">Date:</f:facet>
+											<h:outputText value="#{show.start}">
+												<f:convertDateTime dateStyle="full"
+													pattern="yyyy-MM-dd HH:mm" />
+											</h:outputText>
+										</h:column>
+
+										<h:column>
+											<f:facet name="header">Monitor:</f:facet>
+											<h:outputText value="#{show.monitor.id}" />
+
+										</h:column>
 
 
 
-			<h:column>
-				<f:facet name="header">Movie:</f:facet>
-				<h:outputText value="#{show.movie.title}" />
-			</h:column>
+										<h:column>
+											<f:facet name="header">Movie:</f:facet>
+											<h:outputText value="#{show.movie.title}" />
+										</h:column>
 
 
-			<h:column>
-				<f:facet name="header">Choose</f:facet>
-				<h:commandButton value="Chosse"
-					action="#{showBean.chooseShow(show.id)}"></h:commandButton>
+										<h:column>
+											<f:facet name="header">Actions</f:facet>
+											<h:commandLink value="Choose" p:data-toggle="tooltip"
+												p:data-placement="top" p:data-original-title="Choose the show to watch"
+												action="#{reservationBean.choose(show.id)}"
+												class="btn btn-outline-success">
+												<i class="zmdi zmdi-edit"></i>
+												<f:param name="id" value="#{show.id}"></f:param>
+											</h:commandLink>
+										</h:column>
 
-			</h:column>
+									</h:dataTable>
+									<h:panelGroup id="script">
+										<h:outputScript rendered="#{not empty showBean.script}">#{showBean.script}</h:outputScript>
+									</h:panelGroup>
+								</h:form>
+							</div>
+							<!-- END DATA TABLE -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /div-->
+			<!-- E N D  F U N C T I O N A L I T I E S-->
 
 
-		</h:dataTable>
-		<h:commandButton value="Log Out #{userBean.user.username}" action="#{loginBean.logOut}"></h:commandButton>
-	</h:form>
-	
+
+			<ui:include src="parts/footer.xhtml"></ui:include>
+			<!-- END PAGE CONTAINER-->
+		</div>
+
+	</div>
+
+	<ui:include src="parts/scripts.xhtml"></ui:include>
 </h:body>
+
 </html>

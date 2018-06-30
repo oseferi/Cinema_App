@@ -55,12 +55,9 @@ public class RoomDao {
 
 		try {
 			Room roomToBeUpdated = sessionObj.get(Room.class, id);
-			//roomToBeUpdated.setCinema(room.getCinema());
 			roomToBeUpdated.setDescription(room.getDescription());
 			roomToBeUpdated.setName(room.getName());
 			transObj = sessionObj.beginTransaction();
-			//sessionObj.evict(roomToBeUpdated);
-			
 			sessionObj.merge(roomToBeUpdated);
 			
 			transObj.commit();

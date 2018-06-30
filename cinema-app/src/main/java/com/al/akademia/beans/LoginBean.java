@@ -18,7 +18,8 @@ public class LoginBean {
 
 	private String userName;
 	private String password;
-
+	private String script;
+	
 	@ManagedProperty(value = "#{userBean}")
 	private UserBean userBean;
 
@@ -56,6 +57,16 @@ public class LoginBean {
 		this.userDao = userDao;
 	}
 
+	
+	
+	public String getScript() {
+		return script;
+	}
+
+	public void setScript(String script) {
+		this.script = script;
+	}
+
 	public String logIn() {
 
 		User user = UserDao.existUser(userName, password);
@@ -66,11 +77,12 @@ public class LoginBean {
 			System.out.println(roli);
 			if (roli == 1) {
 
-				return "admin/home?faces-redirect=true";
+				return "admin/index?faces-redirect=true";
 			} else {
 				return "user/client_home?faces-redirect=true";
 			}
 		} else {
+			setScript("alert('Username or Password is Incorrect');");
 			System.out.println("te dhena te pasakta");
 		}
 

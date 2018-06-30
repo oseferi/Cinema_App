@@ -12,11 +12,8 @@ public class UserBean {
 	
 	private static User user;
 	private int role;
-	
-	
-	
+
 	public UserBean(){
-	
 		user = new User();
 		System.out.println("UserBean is loaded");	
 	}
@@ -34,7 +31,6 @@ public class UserBean {
 		this.role = role;
 	}
 	public static void logOut() {
-		// TODO Auto-generated method stub
 		user=null;
 	}
 	

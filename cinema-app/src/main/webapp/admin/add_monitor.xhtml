@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Cinema Administration Platform"/>
+    <meta name="author" content="O. Seferi &#38; J. Murataj"/>
+    <meta name="keywords" content="cinema cms administration movies shows reservation"/>
+
+    <!-- Title Page-->
+    <title>Monitor Addition Form</title>
+
+        <ui:include name="header" src="parts/stylesheets.html" />
+    
+    
+</h:head>
+<h:body class="animsition">
+
+    <div class="page-wrapper">
+        <ui:include src="parts/menu_sidebar.xhtml"></ui:include>
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container2">
+            
+            <ui:include src="parts/header_desktop.xhtml"></ui:include>
+            
+            <!-- BREADCRUMB-->
+            <section class="au-breadcrumb m-t-75">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="au-breadcrumb-content">
+                                    <div class="au-breadcrumb-left">
+                                        <span class="au-breadcrumb-span">You are here:</span>
+                                        <ul class="list-unstyled list-inline au-breadcrumb__list">
+                                            <li class="list-inline-item ">
+                                                <a href="http://localhost:8880/cinema-app/admin/index.xhtml">Administrator Panel</a>
+                                            </li>
+                                            <li class="list-inline-item seprate">
+                                                <span>/</span>
+                                            </li>
+                                            <li class="list-inline-item">
+                                            	<a href="http://localhost:8880/cinema-app/admin/monitors.xhtml">Monitors</a>
+                                            </li>
+                                            <li class="list-inline-item seprate">
+                                                <span>/</span>
+                                            </li>
+                                            <li class="list-inline-item active">Add a Room</li>
+                                        </ul>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END BREADCRUMB-->
+
+            <!-- F U N C T I O N A L I T I E S-->
+			<!-- MAIN CONTENT-->
+			<br/>
+					<div class="section__content section__content--p30">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-8 offset-md-2">
+									<div class="card">
+										<div class="card-header">Add a Monitor</div>
+										<div class="card-body">
+											<div class="card-title">
+												<h3 class="text-center title-2">Fill the form</h3>
+											</div>
+											<hr/>
+											<h:form >
+												<div class="form-group">
+													<label  class="control-label mb-1">Monitor Name</label>
+													<h:inputText id="monitor_name" class="form-control" label="Monitor Name" value="#{monitorBean.monitor.name}" required="true"></h:inputText>
+													<h:message for="monitor_name" style="color:red" />
+													
+												</div>
+												<div class="form-group">
+													<label  class="control-label mb-1">Monitor Description</label>
+													<h:inputTextarea id="monitor_description" class="form-control" label="Monitor Description" value="#{monitorBean.monitor.description}" required="true"></h:inputTextarea>
+													<h:message for="monitor_description" style="color:red" />
+												</div>
+												<div class="form-group">
+												<label  class="control-label mb-1">Chairs</label>
+													<div class="row">
+														<div class="col-md-6">	
+															<label  class="control-label mb-1">Number of Rows</label>
+															<h:inputText id="monitor_chair_rows" class="form-control "  p:type="number" label="Number of Rows" value="#{monitorBean.numberOfRows}" required="true">
+																<f:validateLongRange minimum="0" maximum="10" />
+															</h:inputText>
+															<h:message for="monitor_chair_rows" style="color:red" />
+														</div>
+														<div class="col-md-6">	
+															<label  class="control-label mb-1">Number of Columns</label>
+															<h:inputText id="monitor_chair_columns" class="form-control "  p:type="number" label="Number of Columns" value="#{monitorBean.numberOfColumns}" required="true">
+																<f:validateLongRange minimum="0" maximum="25" />
+															</h:inputText>
+															<h:message for="monitor_chair_columns" style="color:red" />
+														</div>   
+													</div>
+												</div>
+												<div class="form-group">
+													<label  class="control-label mb-1">Room</label>
+													<h:selectOneMenu id="monitor_room" class="form-control" value="#{monitorBean.roomId}" label="Room" required="true">
+													<f:selectItems value="#{monitorBean.rooms}" var="room"
+														itemValue="#{room.id}" itemLabel="#{room.name}" />
+													</h:selectOneMenu>
+													<h:message for="monitor_room" style="color:red" />
+												</div>   
+												<div class="form-group">
+													<h:commandButton class="btn btn-lg btn-info btn-block" value="Add Monitor" action="#{monitorBean.addMonitor()}">
+														<f:ajax disabled="true" render="script" />
+														<f:ajax disabled="true" render="@form"/>
+														</h:commandButton>
+														
+												<h:panelGroup id="script">
+														<h:outputScript rendered="#{not empty monitorBean.script}">#{monitorBean.script}</h:outputScript>
+												</h:panelGroup>	
+												</div>
+											</h:form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+			   
+            <!-- E N D  F U N C T I O N A L I T I E S-->
+
+            
+            
+            <ui:include src="parts/footer.xhtml"></ui:include>
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <ui:include src="parts/scripts.xhtml"></ui:include>
+</h:body>
+
+</html>

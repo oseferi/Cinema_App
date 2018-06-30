@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Cinema Administration Platform"/>
+    <meta name="author" content="O. Seferi &#38; J. Murataj"/>
+    <meta name="keywords" content="cinema cms administration movies shows reservation"/>
+
+    <!-- Title Page-->
+    <title>Administrator Home</title>
+
+        <ui:include name="header" src="parts/stylesheets.html" />
+    
+    
+</h:head>
+<h:body class="animsition">
+
+    <div class="page-wrapper">
+        <ui:include src="parts/menu_sidebar.xhtml"></ui:include>
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container2">
+            
+            <ui:include src="parts/header_desktop.xhtml"></ui:include>
+            
+            <!-- BREADCRUMB-->
+            <section class="au-breadcrumb m-t-75">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="au-breadcrumb-content">
+                                    <div class="au-breadcrumb-left">
+                                        <span class="au-breadcrumb-span">You are here:</span>
+                                        <ul class="list-unstyled list-inline au-breadcrumb__list">
+                                            <li class="list-inline-item active">
+                                                <a href="http://localhost:8880/cinema-app/admin/index.xhtml">Administrator Panel</a>
+                                            </li>
+                                            <li class="list-inline-item seprate">
+                                                <span>/</span>
+                                            </li>
+                                            <li class="list-inline-item">Home</li>
+                                        </ul>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END BREADCRUMB-->
+
+            <!-- F U N C T I O N A L I T I E S-->
+            <section class="statistic">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                        	<div class="col-sm-6 col-lg-3">
+                            <a href="add_movie.xhtml">
+                                <div class="overview-item overview-item--c1">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-movie"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h2>Add a Movie</h2>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                            </div>
+                            
+                        	<div class="col-sm-6 col-lg-3">
+                            <a href="add_show.xhtml">
+                                <div class="overview-item overview-item--c2">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-slideshow"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h2>Add a Show</h2>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                            </div>
+                            
+                            <div class="col-sm-6 col-lg-3">
+                            <a href="add_monitor.xhtml">
+                                <div class="overview-item overview-item--c3">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-tv-list"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h2>Add a Monitor</h2>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>    
+                            </div>
+                            
+                            <div class="col-sm-6 col-lg-3">
+                            <a href="add_room.xhtml">
+                                <div class="overview-item overview-item--c4">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <div class="icon">
+                                                <i class="zmdi zmdi-blur-linear"></i>
+                                            </div>
+                                            <div class="text">
+                                                <h2>Add a Room</h2>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                            </div>
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- E N D  F U N C T I O N A L I T I E S-->
+
+            
+            
+            <ui:include src="parts/footer.xhtml"></ui:include>
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <ui:include src="parts/scripts.xhtml"></ui:include>
+</h:body>
+
+</html>

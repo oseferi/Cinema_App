@@ -20,16 +20,10 @@ public class CategoryDao {
 	    Category category = null;
 	    try {
 			
-	    	
-			transObj = sessionObj.beginTransaction();
-
 	        category = (Category) sessionObj.get(Category.class, categoryId);
-	        sessionObj.merge(category);
-			transObj.commit();
-			
+	        
 		} 
 	    catch (Exception exceptionObj) {
-			transObj.rollback();
 			exceptionObj.printStackTrace();
 		} 
 	    
@@ -38,18 +32,10 @@ public class CategoryDao {
 	public static List<Category> getAllCategories(){
 
 		try {
-
-
-			
-			transObj = sessionObj.beginTransaction();
-
 			List<Category> categories = sessionObj.createQuery("from Category ").getResultList();
-			
-			transObj.commit();
 			return categories;
 			
 		} catch (Exception exceptionObj) {
-			transObj.rollback();
 			exceptionObj.printStackTrace();
 			return null;
 

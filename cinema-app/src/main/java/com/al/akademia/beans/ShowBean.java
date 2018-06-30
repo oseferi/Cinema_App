@@ -1,11 +1,17 @@
 package com.al.akademia.beans;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.al.akademia.dao.MonitorDao;
 import com.al.akademia.dao.MovieDao;
@@ -15,9 +21,9 @@ import com.al.akademia.entitete.Movie;
 import com.al.akademia.entitete.Show;
 
 @ManagedBean(name = "showBean")
-@SessionScoped
-public class ShowBean {
-	private Show show1;
+@ViewScoped
+public class ShowBean{
+	private Show show;
 	private List<Monitor> monitors;
 	private List<Movie> movies;
 	private int monitorId;
@@ -26,15 +32,52 @@ public class ShowBean {
 	private int monitorUpdated;
 	private int movieUpdated;
 	private Show showToBeUpdated;
-	private String successMessage;
+	private String script;
+	private String stringDate;
+	private int stringHour;
+	private int stringMinute;
+	private String dateNow;
 	
 	
-	public String getSuccessMessage() {
-		return successMessage;
+	public String getDateNow() {
+		return dateNow;
 	}
 
-	public void setSuccessMessage(String successMessage) {
-		this.successMessage = successMessage;
+	public void setDateNow(String dateNow) {
+		this.dateNow = dateNow;
+	}
+
+	public String getScript() {
+		return script;
+	}
+
+	public void setScript(String script) {
+		this.script = script;
+	}
+	
+	
+	public String getStringDate() {
+		return stringDate;
+	}
+
+	public void setStringDate(String stringDate) {
+		this.stringDate = stringDate;
+	}
+
+	public int getStringHour() {
+		return stringHour;
+	}
+
+	public void setStringHour(int stringHour) {
+		this.stringHour = stringHour;
+	}
+
+	public int getStringMinute() {
+		return stringMinute;
+	}
+
+	public void setStringMinute(int stringMinute) {
+		this.stringMinute = stringMinute;
 	}
 
 	public Show getShowToBeUpdated() {
@@ -69,12 +112,12 @@ public class ShowBean {
 		this.shows = shows;
 	}
 
-	public Show getShow1() {
-		return show1;
+	public Show getShow() {
+		return show;
 	}
 
-	public void setShow1(Show show1) {
-		this.show1 = show1;
+	public void setShow(Show show) {
+		this.show= show;
 	}
 
 	public List<Monitor> getMonitors() {
@@ -113,25 +156,42 @@ public class ShowBean {
 
 	public ShowBean() throws IOException {
 		
-		show1 =new Show();
+		show =new Show();
 		movies = MovieDao.getMoviesFromDB();
 		monitors = MonitorDao.getAllMonitors();
 		showToBeUpdated = new Show();
-		// updateShows();
+		updateShows();
+		dateNow= new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+		if(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id")!=null) {
+			showToBeUpdated = ShowDao.getShowById(Integer.valueOf(String.valueOf(FacesContext.getCurrentInstance().getExternalContext().getFlash().get("id"))));
+		}else {
+		showToBeUpdated = new Show();
+		}
 		
 	}
 
 	public String addShow() throws ParseException {
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date date = null;
+		try {
+		   date = formatter.parse(stringDate+" "+String.valueOf(stringHour)+":"+String.valueOf(stringMinute));
+		} catch (ParseException e) {
+		  e.printStackTrace();
+		}
 		
 		Show show = new Show();
 		show.setMonitor(MonitorDao.getMonitorById(monitorId));
 		show.setMovie(MovieDao.getMovieById(movieId));
-		show.setStart(show1.getStart());
+		show.setStart(date);
 		if (ShowDao.addShow(show)) {
 			System.out.println("show added");
+			setScript("alert('Show for the movie with title "+show.getMovie().getTitle()+" was added succesfully.');");
 			updateShows();
 		} else {
 			System.out.println("show was not added");
+			setScript("alert('Show for the movie with title "+show.getMovie().getTitle()+" was NOT added .</br> If the problem persists please contact the administrator');");
+
 		}
 		return null;
 	}
@@ -152,39 +212,46 @@ public class ShowBean {
 		
 	}
 	public String chooseShow(String showId) {
+		System.out.println(showId);
 		System.out.println(Integer.valueOf(showId));
-		show1= ShowDao.getShowById(Integer.valueOf(showId));
-		System.out.println(show1);
-		return "client_reservation?faces-redirect=true";
-		
-		
+		show= ShowDao.getShowById(Integer.valueOf(showId));
+		//System.out.println(show);
+		return "reservation1?faces-redirect=true";		
 	}
 
 	public void updateShows() {
 		shows = ShowDao.getShowsFromDB();
 	}
-	public String updateAction(int id, Show show) {
+	public String updateAction(int id,Show show) {
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+		Date date = null;
+		try {
+		   date = formatter.parse(stringDate+" "+String.valueOf(stringHour)+":"+String.valueOf(stringMinute));
+		} catch (ParseException e) {
+			date = new Date();
+		  e.printStackTrace();
+		}
 		Movie newMovie = MovieDao.getMovieById(movieUpdated);
 		Monitor newMonitor = MonitorDao.getMonitorById(monitorUpdated);
-		
+		show.setStart(date);
 		show.setMonitor(newMonitor);
 		show.setMovie(newMovie);
-		if (ShowDao.updateShow(id, show)) {
+		if (ShowDao.updateShow(id,show)) {
+			System.out.println("show added");
+			setScript("alert('Show for the show with movie title "+show.getMovie().getTitle()+" was edited succesfully.');window.location.replace(window.location.href.replace('edit_Show','shows'))");
 			updateShows();
-			successMessage = "Show with Id " + String.valueOf(id) + " updated succesfully";
-			System.out.println("po");
-			return "response_show";
+			return null;
+			
 		} else {
-			System.out.println("jo");
-			successMessage = "Show with Id " + String.valueOf(id) + "was not updated succesfully";
-			return "response_show";
+			System.out.println("show was not edited");
+			setScript("alert('Show for the show with movie title "+show.getMovie().getTitle()+" was NOT edited . If the problem persists please contact the administrator');");
+			return null;
 		}
-
+		
 	}
 	public String editAction(int showId) {
-		showToBeUpdated = ShowDao.getShowById(showId);
-		return "editShow";
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("id", showId );
+		return "edit_Show?faces-redirect=true";
 	}
-	
-	
 }

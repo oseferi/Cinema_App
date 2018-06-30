@@ -1,5 +1,7 @@
 package com.al.akademia.entitete;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "monitor")
-public class Monitor{
+public class Monitor implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +57,7 @@ public class Monitor{
 		this.name = name;
 	}
 
-	public Room Room() {
+	public Room getRoom() {
 		return room;
 	}
 

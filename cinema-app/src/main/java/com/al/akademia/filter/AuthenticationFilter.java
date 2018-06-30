@@ -36,13 +36,20 @@ public class AuthenticationFilter implements Filter {
 		
 		
 		UserBean userBean = (session != null) ? (UserBean) session.getAttribute("userBean") : null;
+		//filterChain.doFilter(servletRequest, servletResponse);
 		
-		if(httpServletRequest.getRequestURI().contains("login")) {
+		if(httpServletRequest.getRequestURI().contains("resources")) {
+			filterChain.doFilter(servletRequest, servletResponse);
+		}
+		else if(httpServletRequest.getRequestURI().contains("javax.faces.resource")) {
+			filterChain.doFilter(servletRequest, servletResponse);
+		}
+		else if(httpServletRequest.getRequestURI().contains("login")) {
 			if(userBean!=null ) {
 				if(userBean.getUser()!=null) {
 					if(userBean.getUser().getUsername()!=null) {
 						if(userBean.getUser().getRole().getId()==1) {
-							httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/admin/home.xhtml");
+							httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/admin/index.xhtml");
 						}
 						else if(userBean.getUser().getRole().getId()==2) {
 							httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/user/client_home.xhtml");
@@ -77,7 +84,7 @@ public class AuthenticationFilter implements Filter {
 							}
 							else {
 								System.out.println("user is not authorized to access this resource");
-								httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/admin/home.xhtml");
+								httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/admin/index.xhtml");
 							}
 						
 						}
@@ -114,7 +121,7 @@ public class AuthenticationFilter implements Filter {
 				//filterChain.doFilter(servletRequest, servletResponse);
 			}
 			
-		}	
+		}
 	
 	}
 

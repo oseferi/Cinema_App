@@ -1,24 +1,128 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
-
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
-	<title>Edit Movie</title>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Cinema Administration Platform"/>
+    <meta name="author" content="O. Seferi &#38; J. Murataj"/>
+    <meta name="keywords" content="cinema cms administration movies shows reservation"/>
+
+    <!-- Title Page-->
+    <title>Room Update Form</title>
+
+        <ui:include name="header" src="parts/stylesheets.html" />
+    
+    
 </h:head>
-<h:body>
-	<h2>Edit Movie with id #{cinemaBean.roomToBeUpdated.id}</h2>
-	<h:form>
-    	   Title :<h:inputText value="#{cinemaBean.roomToBeUpdated.name}"></h:inputText>
-		<br />
-    	   
-    	   Description:<h:inputText value="#{cinemaBean.roomToBeUpdated.description}"></h:inputText>
-		<br />
+<h:body class="animsition">
 
-		<h:commandButton value="Save" action="#{cinemaBean.updateAction( cinemaBean.roomToBeUpdated.id, cinemaBean.roomToBeUpdated )}"></h:commandButton>
-	</h:form>
+    <div class="page-wrapper">
+        <ui:include src="parts/menu_sidebar.xhtml"></ui:include>
 
+        <!-- PAGE CONTAINER-->
+        <div class="page-container2">
+            
+            <ui:include src="parts/header_desktop.xhtml"></ui:include>
+            
+            <!-- BREADCRUMB-->
+            <section class="au-breadcrumb m-t-75">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="au-breadcrumb-content">
+                                    <div class="au-breadcrumb-left">
+                                        <span class="au-breadcrumb-span">You are here:</span>
+                                        <ul class="list-unstyled list-inline au-breadcrumb__list">
+                                            <li class="list-inline-item ">
+                                                <a href="http://localhost:8880/cinema-app/admin/index.xhtml">Administrator Panel</a>
+                                            </li>
+                                            <li class="list-inline-item seprate">
+                                                <span>/</span>
+                                            </li>
+                                            <li class="list-inline-item">
+                                            	<a href="http://localhost:8880/cinema-app/admin/rooms.xhtml">Rooms</a>
+                                            </li>
+                                            <li class="list-inline-item seprate active">
+                                                <span>/</span>
+                                            </li>
+                                            <li class="list-inline-item">Update a Room</li>
+                                        </ul>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END BREADCRUMB-->
+
+            <!-- F U N C T I O N A L I T I E S-->
+			<!-- MAIN CONTENT-->
+			<br/>
+					<div class="section__content section__content--p30">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-8 offset-md-2">
+									<div class="card">
+										<div class="card-header">Edit the Room</div>
+										<div class="card-body">
+											<div class="card-title">
+												<h3 class="text-center title-2">#{cinemaBean.roomToBeUpdated.name}</h3>
+											</div>
+											<hr/>
+												<h:form >
+												<div class="form-group">
+													<label  class="control-label mb-1">Room Name</label>
+													<h:inputText id="rtitle" class="form-control" value="#{cinemaBean.roomToBeUpdated.name}" label="Title" required="true"></h:inputText>
+													<h:message for="rtitle" style="color:red" />
+													
+												</div>
+												<div class="form-group">
+													<label  class="control-label mb-1">Description</label>
+													<h:inputTextarea id="rdescription" class="form-control" value="#{cinemaBean.roomToBeUpdated.description}" label="Description" required="true"></h:inputTextarea>
+													<h:message for="rdescription" style="color:red" />
+												</div>
+												
+												   
+												<div class="form-group">
+													<h:commandButton class="btn btn-lg btn-info btn-block" value="Update" action="#{cinemaBean.updateAction( cinemaBean.roomToBeUpdated.id, cinemaBean.roomToBeUpdated )}">
+														<f:ajax execute="@form"/>
+														<f:ajax  render="script"/>
+														</h:commandButton>
+														
+														
+												</div>
+											</h:form>
+											<h:panelGroup id="script">
+														<h:outputScript rendered="#{not empty movieBean.script}">#{movieBean.script}</h:outputScript>
+											</h:panelGroup>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+			   
+            <!-- E N D  F U N C T I O N A L I T I E S-->
+
+            
+            
+            <ui:include src="parts/footer.xhtml"></ui:include>
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <ui:include src="parts/scripts.xhtml"></ui:include>
 </h:body>
+
 </html>

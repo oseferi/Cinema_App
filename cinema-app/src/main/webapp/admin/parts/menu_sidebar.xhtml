@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar2">
+            <div class="logo">
+                <a href="#">
+                    <img src="../resources/images/icon/logo-white.png" alt="Cool Admin" />
+                </a>
+            </div>
+            <div class="menu-sidebar2__content js-scrollbar1">
+                <div class="account2">
+                    <div class="image img-cir img-120">
+                        <!--  img src="../resources/images/icon/avatar-big-01.jpg" alt="${userBean.user.username}" /-->
+                        <img src="../resources/images/icon/admin1.png" alt="${userBean.user.username}" />
+                        
+                    </div>
+                    <h4 class="name">${userBean.user.firstName} ${userBean.user.surName}</h4>
+                    <a href="#">@${userBean.user.username}</a>
+                    <h6 style="padding-bottom:10px;padding-top:10px">Administrator</h6>
+                    
+                    <h:form>
+					    <h:commandButton value="Sign out" action="#{loginBean.logOut}" class="btn btn-outline-primary btn-sm"></h:commandButton>
+					</h:form>
+                </div>
+                <!--  nav class="navbar-sidebar2">
+                    <ul class="list-unstyled navbar__list">
+                        
+                        <li>
+                            <a href="index.xhtml">
+                                <i class="fas fa-chart-bar"></i>Home</a>
+                        </li>
+                        <li>
+                            <a href="movies.xhtml">
+                                <i class="fas fa-shopping-basket"></i>Movies</a>
+                        </li>
+                        <li>
+                            <a href="shows.xhtml">
+                                <i class="fas fa-shopping-basket"></i>Shows</a>
+                        </li>
+                        <li>
+                            <a href="monitors.xhtml">
+                                <i class="fas fa-shopping-basket"></i>Monitors</a>
+                        </li>
+                        <li>
+                            <a href="rooms.xhtml">
+                                <i class="fas fa-shopping-basket"></i>Rooms</a>
+                        </li>
+                        
+                        
+                       
+                    </ul>
+                </nav-->
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->
+</html>

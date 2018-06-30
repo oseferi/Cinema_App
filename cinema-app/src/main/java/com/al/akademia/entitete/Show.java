@@ -1,5 +1,6 @@
 package com.al.akademia.entitete;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -17,7 +18,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "show1")
-public class Show {
+public class Show  implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +28,11 @@ public class Show {
 	//@Column(name = "start", nullable = false)
 	private Date start;
 	
-	@ManyToOne( fetch = FetchType.EAGER)
+	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "monitor_id", nullable = false)
 	private Monitor monitor;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "movie_id", nullable = false)
 	private Movie movie;
 

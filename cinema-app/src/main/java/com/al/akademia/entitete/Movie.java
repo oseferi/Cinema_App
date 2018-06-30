@@ -1,5 +1,7 @@
 package com.al.akademia.entitete;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +17,7 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movie")
-public class Movie {
+public class Movie implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, length = 11)
@@ -30,7 +32,7 @@ public class Movie {
 	@Column(name = "imdb", nullable = false, unique = true, length = 45)
 	private String imdb;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne( fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id", nullable = false)
 	private  Category category;
 	
@@ -46,7 +48,7 @@ public class Movie {
 	@Column(name = "rating", length = 1)
 	private int rating;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "country_id", nullable = false)
 	private  Country country;
 
